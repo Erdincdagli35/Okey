@@ -11,6 +11,10 @@ public class IndicatorSelector implements IndicatorManager {
     @Override
     public IndicatorResult selectIndicator(List<Tile> tiles) {
         Tile indicator;
+
+        if (tiles.isEmpty())
+            throw new IllegalArgumentException("Tile list can not be empty.");
+
         do {
             indicator = tiles.get(random.nextInt(tiles.size()));
         }while (indicator.isFake());

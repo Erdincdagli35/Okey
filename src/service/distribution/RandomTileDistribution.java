@@ -1,8 +1,9 @@
-package service.player;
+package service.distribution;
 
 import model.Tile;
 import model.player.Player;
 import model.player.PlayerHand;
+import service.player.PlayerPrint;
 
 import java.util.List;
 import java.util.Random;
@@ -16,11 +17,16 @@ public class RandomTileDistribution implements TileDistributionStrategy {
     }
 
     @Override
-    public void distributeTiles(List<Player> players, List<Tile> tiles) {
+    public List<Player> distributeTiles(List<Player> players, List<Tile> tiles) {
         Random random = new Random();
-        for (Player player : players) {
+
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
             PlayerHand hand = new PlayerHand(player);
-            for (int i = 0; i < 15; i++) {
+
+            int tileCount = (i == 0) ? 15 : 14;
+
+            for (int j = 0; j < tileCount; j++) {
                 int randomIndex = random.nextInt(tiles.size());
                 Tile tile = tiles.remove(randomIndex);
                 hand.addTile(tile);
@@ -30,5 +36,7 @@ public class RandomTileDistribution implements TileDistributionStrategy {
             hand.setPlayer(player);
             playerPrint.printTileByPlayer(player, hand);
         }
+
+        return players;
     }
 }
