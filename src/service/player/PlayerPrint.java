@@ -1,8 +1,8 @@
 package service.player;
 
 import model.Tile;
-import model.player.Player;
-import model.player.PlayerHand;
+import model.Player;
+import model.PlayerHand;
 import service.generator.TilePrint;
 
 import java.util.List;

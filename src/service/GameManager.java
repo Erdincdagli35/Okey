@@ -1,10 +1,7 @@
 package service;
 
-import model.Color;
 import model.Tile;
-import model.TileMarker;
-import model.player.Player;
-import model.player.PlayerHand;
+import model.Player;
 import service.analyzer.GameAnalyzer;
 import service.distribution.RandomTileDistribution;
 import service.distribution.TileDistributionStrategy;
@@ -25,12 +22,12 @@ public class GameManager {
     public void initializeGame() {
         System.out.println();
 
-        //Taşlar oluşturuluyor
+        //1.Taşlar oluşturuluyor
         TileManager tileManager = new TileGenerator();
         List<Tile> tiles = tileManager.generateTiles();
 
         System.out.println("---------------------------");
-        System.out.println("Taşlar oluşturuldu.");
+        System.out.println("Tiles have been created");
 
         TilePrint tilePrint = new TilePrint(tileManager);
 
@@ -38,14 +35,14 @@ public class GameManager {
         tilePrint.printTilesSize(tiles);
         System.out.println("---------------------------");
 
-        //Oyuncular oluşturuluyor
+        //1.Oyuncular oluşturuluyor
         PlayerManager playerManager = new PlayerGenerator();
         List<Player> players = playerManager.generatePlayers(4);
 
         System.out.println("---------------------------");
         PlayerPrint playerPrint = new PlayerPrint(playerManager, tilePrint);
 
-        //Taşlar karıştırılıp oyuncuların ıstakasına ekleniyor
+        //2.Taşlar karıştırılıp oyuncuların ıstakasına ekleniyor
         TileDistributionStrategy distributionStrategy = new RandomTileDistribution(playerPrint);
         players = distributionStrategy.distributeTiles(players,tiles);
 
@@ -53,26 +50,24 @@ public class GameManager {
         IndicatorPrint indicatorPrint = new IndicatorPrint(indicatorManager);
         IndicatorResult indicatorResult = indicatorManager.selectIndicator(tiles);
 
-        //System.out.println(tileMarker.getIndicator() +" "+ tileMarker.getOkey());
-
         indicatorPrint.print(indicatorResult);
         System.out.println("---------------------------");
 
         playerPrint.printPlayerSize(players);
 
+        //3.Taşlar diziliyor
         TileSeriesFinder tileSeriesFinder = new TileSeriesFinder(indicatorResult.getOkey(), indicatorResult.getIndicator());
         GameAnalyzer analyzer = new GameAnalyzer(indicatorResult.getOkey(), indicatorResult.getIndicator());
 
         for (Player player : players) {
             System.out.println("---------------------------------");
-            System.out.println("\nPlayer "+player.getId() + "\nİhtimaller : \n" );
+            System.out.println("\nPlayer "+player.getId() + "\n" );
             tileSeriesFinder.printSeries(tileSeriesFinder.findAllValidSets(player.getHand().getTiles()));
             System.out.println("---------------------------------");
         }
 
+        //En iyi oyuncu bulunuyor
         Integer bestPlayer = analyzer.determineBestPlayer(players);
-
-
-        System.out.println("Best Player ID : " + bestPlayer);
+        System.out.println("Best Player ID : Player " + bestPlayer);
     }
 }

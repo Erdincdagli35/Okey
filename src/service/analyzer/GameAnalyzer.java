@@ -1,8 +1,7 @@
 package service.analyzer;
 
 import model.Tile;
-import model.player.Player;
-import model.player.PlayerHand;
+import model.Player;
 import service.finder.TileSeriesFinder;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package service.player;
 
-import model.player.Player;
+import model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
