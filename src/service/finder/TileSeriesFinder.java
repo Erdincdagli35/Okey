@@ -2,10 +2,6 @@ package service.finder;
 
 import model.Color;
 import model.Tile;
-import service.evalutor.EqualSeriesEvaluator;
-import service.evalutor.PairEvaluator;
-import service.evalutor.SeriesCountEvaluator;
-import service.evalutor.SeriesEvaluator;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,7 +11,6 @@ public class TileSeriesFinder {
     private final Tile okeyTile;
     private final Tile indicatorTile;
     private final List<TileStrategy> strategies;
-    private final List<SeriesEvaluator> seriesEvaluators;
 
     public TileSeriesFinder(Tile okeyTile, Tile indicatorTile) {
         this.okeyTile = okeyTile;
@@ -23,9 +18,6 @@ public class TileSeriesFinder {
         this.strategies = Arrays.asList(new SequentialSeriesFinder(),
                                         new GroupSeriesFinder(),
                                         new PairFinder());
-        this.seriesEvaluators = Arrays.asList(new SeriesCountEvaluator(),
-                                              new EqualSeriesEvaluator(),
-                                              new PairEvaluator());
     }
 
     public List<List<Tile>> findAllValidSets(List<Tile> tiles) {
@@ -40,13 +32,23 @@ public class TileSeriesFinder {
         List<List<Tile>> strategicSets = useOkeyTilesStrategically(tiles, okeyCount, usedTiles);
         allSets.addAll(strategicSets);
 
-        for (SeriesEvaluator seriesEvaluator : seriesEvaluators) {
-            seriesEvaluator.evaluate(allSets, tiles);
-        }
-
         return allSets;
     }
 
+    public Map<String, Integer> countSetTypes(List<Tile> tiles) {
+        Map<String, Integer> counts = new HashMap<>();
+        Set<Tile> usedTiles = new HashSet<>();
+
+        int seriesCount = new SequentialSeriesFinder().findTiles(tiles, usedTiles).size();
+        int groupCount = new GroupSeriesFinder().findTiles(tiles, usedTiles).size();
+        int pairCount = new PairFinder().findTiles(tiles, usedTiles).size();
+
+        counts.put("series", seriesCount);
+        counts.put("group", groupCount);
+        counts.put("pair", pairCount);
+
+        return counts;
+    }
 
     private List<List<Tile>> useOkeyTilesStrategically(List<Tile> tiles, int okeyCount, Set<Tile> usedTiles) {
         List<List<Tile>> sets = new ArrayList<>();

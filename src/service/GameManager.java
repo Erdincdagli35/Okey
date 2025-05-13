@@ -5,6 +5,7 @@ import model.Tile;
 import model.TileMarker;
 import model.player.Player;
 import model.player.PlayerHand;
+import service.analyzer.GameAnalyzer;
 import service.distribution.RandomTileDistribution;
 import service.distribution.TileDistributionStrategy;
 import service.finder.TileSeriesFinder;
@@ -60,14 +61,18 @@ public class GameManager {
         playerPrint.printPlayerSize(players);
 
         TileSeriesFinder tileSeriesFinder = new TileSeriesFinder(indicatorResult.getOkey(), indicatorResult.getIndicator());
+        GameAnalyzer analyzer = new GameAnalyzer(indicatorResult.getOkey(), indicatorResult.getIndicator());
 
         for (Player player : players) {
             System.out.println("---------------------------------");
-            System.out.println("\n\nPlayer "+player.getId() + "\nİhtimaller : \n" );
+            System.out.println("\nPlayer "+player.getId() + "\nİhtimaller : \n" );
             tileSeriesFinder.printSeries(tileSeriesFinder.findAllValidSets(player.getHand().getTiles()));
             System.out.println("---------------------------------");
         }
 
+        Integer bestPlayer = analyzer.determineBestPlayer(players);
 
+
+        System.out.println("Best Player ID : " + bestPlayer);
     }
 }
