@@ -1,7 +1,7 @@
-package service.distribution;
+package manager.distribution;
 
-import model.Tile;
 import model.Player;
+import model.Tile;
 
 import java.util.List;
 

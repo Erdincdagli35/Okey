@@ -1,9 +1,9 @@
-package service.player;
+package manager.player;
 
-import model.Tile;
 import model.Player;
 import model.PlayerHand;
-import service.generator.TilePrint;
+import model.Tile;
+import manager.generator.TilePrint;
 
 import java.util.List;
 
@@ -16,16 +16,16 @@ public class PlayerPrint {
         this.tilePrint = tilePrint;
     }
 
-    public void printPlayerSize(List<Player> players){
+    public void printPlayerSize(List<Player> players) {
         System.out.println("Oyuncu Sayısı : " + players.size());
     }
 
-    public void printTileByPlayer(Player player, PlayerHand hand){
+    public void printTileByPlayer(Player player, PlayerHand hand) {
         List<Tile> tiles = hand.getTiles();
         String tileList = tilePrint.tilesPrintSpecificByString(tiles);
 
-        System.out.println("Player : " + player.getId()  +
-                            "\nHand : " +
-                            "{" + tileList + "}");
+        System.out.println("Player : " + player.getId() +
+                "\nHand : " +
+                "{" + tileList + "}");
     }
 }

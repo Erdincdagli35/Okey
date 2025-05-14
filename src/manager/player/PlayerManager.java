@@ -1,4 +1,4 @@
-package service.player;
+package manager.player;
 
 import model.Player;
 

@@ -1,4 +1,4 @@
-package service.finder;
+package manager.placer;
 
 import model.Color;
 import model.Tile;
@@ -6,7 +6,18 @@ import model.Tile;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SequentialSeriesFinder implements TileStrategy{
+public class SequentialSeriesPlacer implements TileStrategy {
+
+    /**
+     * Finds and returns valid series of tiles that have consecutive numbers within the same color.
+     * A valid series consists of at least 3 consecutive tiles with the same color.
+     * Only tiles that are not marked as "okey" (joker) are considered, and tiles that have already been used are excluded.
+     * Once a valid series is found, the tiles are added to the usedTiles set to prevent reuse.
+     *
+     * @param tiles     the list of all tiles to search from
+     * @param usedTiles a set of tiles that have already been used in previous series or groups
+     * @return a list of valid tile series (each series is a list of consecutive tiles with the same color)
+     */
     @Override
     public List<List<Tile>> findTiles(List<Tile> tiles, Set<Tile> usedTiles) {
         Map<Color, List<Tile>> byColor = tiles.stream()

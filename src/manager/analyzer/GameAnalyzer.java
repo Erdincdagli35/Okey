@@ -1,19 +1,27 @@
-package service.analyzer;
+package manager.analyzer;
 
-import model.Tile;
 import model.Player;
-import service.finder.TileSeriesFinder;
+import model.Tile;
+import manager.placer.TileSeriesPlacer;
 
 import java.util.List;
 import java.util.Map;
 
 public class GameAnalyzer {
-    private final TileSeriesFinder finder;
+    private final TileSeriesPlacer finder;
 
     public GameAnalyzer(Tile okeyTile, Tile indicatorTile) {
-        this.finder = new TileSeriesFinder(okeyTile, indicatorTile);
+        this.finder = new TileSeriesPlacer(okeyTile, indicatorTile);
     }
 
+    /**
+     * Determines the best player based on their hand of tiles and calculates the highest score.
+     * The score is calculated based on the number of sets (series, groups, pairs) a player has in their hand.
+     * The player with the highest score is determined and returned.
+     *
+     * @param players the list of players to evaluate
+     * @return the ID of the player with the highest score
+     */
     public Integer determineBestPlayer(List<Player> players) {
         Integer bestPlayer = null;
         int bestScore = -1;
@@ -38,8 +46,17 @@ public class GameAnalyzer {
         return bestPlayer;
     }
 
+    /**
+     * Calculates the score based on the counts of series, groups, and pairs.
+     * The score is calculated as follows:
+     * - Each series is worth 5 points
+     * - Each group is worth 3 points
+     * - Each pair is worth 1 point
+     *
+     * @param counts a map containing the counts of series, groups, and pairs
+     * @return the total score calculated based on the counts of sets
+     */
     private int calculateScore(Map<String, Integer> counts) {
-        // Örnek puanlama: Seri=5, Grup=3, Çift=1
         return counts.getOrDefault("series", 0) * 5 +
                 counts.getOrDefault("group", 0) * 3 +
                 counts.getOrDefault("pair", 0) * 1;

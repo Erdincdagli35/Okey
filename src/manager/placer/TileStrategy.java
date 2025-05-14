@@ -1,4 +1,4 @@
-package service.finder;
+package manager.placer;
 
 import model.Tile;
 

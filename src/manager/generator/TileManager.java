@@ -1,4 +1,4 @@
-package service.generator;
+package manager.generator;
 
 import model.Tile;
 

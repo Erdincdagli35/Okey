@@ -1,4 +1,4 @@
-package service.indicator;
+package manager.indicator;
 
 import model.Tile;
 

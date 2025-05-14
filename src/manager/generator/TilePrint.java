@@ -1,4 +1,4 @@
-package service.generator;
+package manager.generator;
 
 import model.Tile;
 
@@ -16,12 +16,7 @@ public class TilePrint {
     }
 
     public void printTilesSize(List<Tile> tiles) {
-        System.out.println("Taş sayısı : " + tiles.size());
-    }
-
-    public void tilesPrintSpecific(List<Tile> tiles) {
-        for (Tile tile : tiles)
-            System.out.println(tile.getColor() + " -> " + tile.getNumber());
+        System.out.println("Total Tile Number : " + tiles.size());
     }
 
     public String tilesPrintSpecificByString(List<Tile> tiles) {

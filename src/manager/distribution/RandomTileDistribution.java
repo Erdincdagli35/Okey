@@ -1,9 +1,9 @@
-package service.distribution;
+package manager.distribution;
 
-import model.Tile;
 import model.Player;
 import model.PlayerHand;
-import service.player.PlayerPrint;
+import model.Tile;
+import manager.player.PlayerPrint;
 
 import java.util.List;
 import java.util.Random;
@@ -16,6 +16,15 @@ public class RandomTileDistribution implements TileDistributionStrategy {
         this.playerPrint = playerPrint;
     }
 
+    /**
+     * Distributes tiles randomly to each player.
+     * The first player receives 15 tiles, while the others receive 14.
+     * Tiles are removed from the main tile list as they are assigned.
+     *
+     * @param players the list of players who will receive tiles
+     * @param tiles   the list of available tiles to distribute
+     * @return the list of players with their hands assigned
+     */
     @Override
     public List<Player> distributeTiles(List<Player> players, List<Tile> tiles) {
         Random random = new Random();

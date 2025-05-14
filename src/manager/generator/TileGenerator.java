@@ -1,4 +1,4 @@
-package service.generator;
+package manager.generator;
 
 import model.Color;
 import model.Tile;
@@ -11,6 +11,14 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class TileGenerator implements TileManager {
+
+    /**
+     * Generates a complete list of Okey tiles, including two of each tile
+     * from number 1 to 13 for each color (excluding the fake color 'SAHTE').
+     * Also adds two fake Okey tiles.
+     *
+     * @return A shuffled list of all tiles.
+     */
     @Override
     public List<Tile> generateTiles() {
         List<Tile> tiles = Arrays.stream(Color.values())
@@ -29,6 +37,11 @@ public class TileGenerator implements TileManager {
         return tiles;
     }
 
+    /**
+     * Adds two identical fake Okey tiles (SAHTE) to the given tile list.
+     *
+     * @param tiles The list to which the fake tiles will be added.
+     */
     private void generateFakeOkeyTiles(List<Tile> tiles) {
         Tile fakeOkey = new Tile(Color.SAHTE, -1, true);
         tiles.add(fakeOkey);

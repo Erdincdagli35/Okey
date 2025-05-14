@@ -1,4 +1,4 @@
-package service.finder;
+package manager.placer;
 
 import model.Color;
 import model.Tile;
@@ -6,18 +6,18 @@ import model.Tile;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class TileSeriesFinder {
+public class TileSeriesPlacer {
 
     private final Tile okeyTile;
     private final Tile indicatorTile;
     private final List<TileStrategy> strategies;
 
-    public TileSeriesFinder(Tile okeyTile, Tile indicatorTile) {
+    public TileSeriesPlacer(Tile okeyTile, Tile indicatorTile) {
         this.okeyTile = okeyTile;
         this.indicatorTile = indicatorTile;
-        this.strategies = Arrays.asList(new SequentialSeriesFinder(),
-                                        new GroupSeriesFinder(),
-                                        new PairFinder());
+        this.strategies = Arrays.asList(new SequentialSeriesPlacer(),
+                new GroupSeriesPlacer(),
+                new PairPlacer());
     }
 
     public List<List<Tile>> findAllValidSets(List<Tile> tiles) {
@@ -39,9 +39,9 @@ public class TileSeriesFinder {
         Map<String, Integer> counts = new HashMap<>();
         Set<Tile> usedTiles = new HashSet<>();
 
-        int seriesCount = new SequentialSeriesFinder().findTiles(tiles, usedTiles).size();
-        int groupCount = new GroupSeriesFinder().findTiles(tiles, usedTiles).size();
-        int pairCount = new PairFinder().findTiles(tiles, usedTiles).size();
+        int seriesCount = new SequentialSeriesPlacer().findTiles(tiles, usedTiles).size();
+        int groupCount = new GroupSeriesPlacer().findTiles(tiles, usedTiles).size();
+        int pairCount = new PairPlacer().findTiles(tiles, usedTiles).size();
 
         counts.put("series", seriesCount);
         counts.put("group", groupCount);
